@@ -9,7 +9,7 @@ public class GameDriver {
     
     public ArrayList<String> inventory = new ArrayList<>();
     public static int gold;
-    String currentSword;
+    public static String currentSword;
     public static int bossHealth;
     public static int playerModifier;
     public static int playerHealth; 
@@ -26,12 +26,6 @@ public class GameDriver {
 
         printControls();
         openingScene(); 
-    }
-    public void gotHealth() {
-
-    }
-    public void attack(players p1, players p2) {
-       
     }
     public String openChest() {
         int random = (int)(Math.random() * 10) +1;
@@ -82,7 +76,10 @@ public class GameDriver {
 
         }
         else if (action.equals("Change Sword")) {
-
+            inventory("Sword");
+        }
+        else if (action.equals("Change Armor")) {
+            inventory("Armor");
         }
         else if (action.equals("Secrets")) {
             secrets();
@@ -164,7 +161,7 @@ public class GameDriver {
             }
             else {
                 System.out.println("Your attack missed! It is now the necromancers turn...");
-                bossTurn(2, -2);
+                bossTurn(2, -2, "Necromancer");
             }   
         }
         else if (howManyRolls > 1) {
@@ -199,7 +196,7 @@ public class GameDriver {
         else {
             System.out.println("Error");
         }
-        bossTurn(2, -2);
+        bossTurn(2, -2, "Necromancer");
     }
     public static int rolld20() {
         int rolledNum;
@@ -230,19 +227,56 @@ public class GameDriver {
         }
         System.out.println("The "+boss+"'s turn is over!"+ANSI_RESET);
     }
-    
-    public static void inventory(String items) {
-        if (items.equals("Swords")) {
 
+
+
+
+    public static ArrayList healingItems = new ArrayList<>();
+    public static ArrayList swords = new ArrayList<>();
+    public static ArrayList armorPieces = new ArrayList<>();
+    // inventory tracking  
+    public static void inventory(String items) {
+        
+        if (items.equals("Swords")) {
+            if (!swords.isEmpty()) {
+                System.out.println("Here are the swords you have: " + swords); 
+            }
+            else {
+                System.out.println("You have no swords");
+            }
         }
-        if (items.equals("Healing")) {
+        else if (items.equals("Healing")) {
+            if (!healingItems.isEmpty()) {    
+                System.out.println("You have some healing items!");
+            }
+            else {
+                System.out.println("You have no healing items");
+            }
+        }
+        else {
+            if (!armorPieces.isEmpty()) {
+                System.out.println("You have these armor pieces: " + armorPieces);
+            }
+            else {
+                System.out.println("You have no armor lol");
+            }
+        }
+        System.out.println("Do you want to use any of these items? Yes or No");
+        Scanner input = new Scanner(System.in); 
+        String yn = input.nextLine();
+        if (yn.equals("Yes")) {
+            System.out.println("What items do you wish to swap with what you have?");
 
         }
     }
+    public static void swapInven(String item) {
+        if (item.)
+    }
 }
+
 /*
-the boss thing needs to be universal                                  
-scenes are getting long, remember the inventory                       
+the boss thing needs to be universal              DONE                       
+scenes are getting long, remember the inventory   DONE                    
 need to fix the choices tbh
 checkAction can be fixed to go back to the previous scene
 printActions is not returning back to scene, make a variable called previousScene and then go back to it
