@@ -10,6 +10,7 @@ public class GameDriver {
     String currentSword;
     public int bossHealth;
     public int playerModifier;
+    public int playerHealth; 
 
     public static void main(String[]args) {
         players p1 = new players();
@@ -139,8 +140,8 @@ public class GameDriver {
 
     //
     public static void attackNecromancer() {
-        
         System.out.println("You must roll and d20 twice and take the higher number but due to your armor stats, your modifier is -2");
+
     }
     
     
@@ -156,12 +157,11 @@ public class GameDriver {
             }
             else {
                 System.out.println("Your attack missed! It is now the necromancers turn...");
-
             }   
         }
         else if (howManyRolls > 1) {
             for (int i = 0; i < howManyRolls; i++) { 
-                int rollDum = rolld20();
+                int rollDum = rolld20(); 
                 if (rollDum > max) {
                     max = rollDum;
                 }
@@ -169,7 +169,7 @@ public class GameDriver {
                     min = rollDum;
                 }
             }
-        }
+        }  
         else {
             System.out.println("Error");
         }
@@ -179,7 +179,19 @@ public class GameDriver {
         rolledNum = (int) (Math.random()*20)+1;
         return rolledNum;
     }
-    public static void bossTurn() {
-        
-    }
+    
+    // bosses turn, if the health is below 10 it will just attack. if above 10, it will do long range attacks maybe
+    public void bossTurn(int modifier, int playerModifier) {
+        if (bossHealth > 10) {
+            if (rolld20() + modifier - playerModifier > 10) {
+                playerHealth-=10;
+                System.out.println("The boss attacked you for 10 damage. You are now at " + playerHealth);
+            }
+            else {
+                System.out.println("You dodged the bosses attack! ");
+            } 
+            
+        }
+    } 
 } 
+ 
