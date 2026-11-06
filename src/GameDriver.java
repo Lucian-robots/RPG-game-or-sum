@@ -9,11 +9,13 @@ public class GameDriver {
     
     public ArrayList<String> inventory = new ArrayList<>();
     public static int gold;
-    public static String currentSword;
+    public static String currentSword = "Rogue Sword";
     public static int bossHealth;
-    public static int playerModifier;
-    public static int playerHealth; 
+    public static int playerModifier = -2;
+    public static int playerHealth = 100; 
     public static int prevScene;
+    public static String currentArmor = "Miner Armor";
+    public static int healthThing;
 
     public static void main(String[]args) {
         players p1 = new players();
@@ -109,7 +111,7 @@ public class GameDriver {
             checkAction(choice);
             System.out.println("With no other choices, you go further into the catacombs. ");
             thirdScene();
-        }
+        } 
         
     } 
     public static void secrets() {
@@ -203,7 +205,10 @@ public class GameDriver {
         rolledNum = (int) (Math.random()*20)+1;
         return rolledNum;
     }
-    
+    public static int rolld8() {
+        int rolledNum = (int) (Math.random()*8)+1;
+        return rolledNum;
+    }
     // bosses turn, if the health is below 10 it will just attack. if above 10, it will do long range attacks maybe
     public static void bossTurn(int modifier, int playerModifier, String boss) {
         if (bossHealth > 10) {
@@ -265,13 +270,85 @@ public class GameDriver {
         Scanner input = new Scanner(System.in); 
         String yn = input.nextLine();
         if (yn.equals("Yes")) {
-            System.out.println("What items do you wish to swap with what you have?");
+            System.out.println("What items do you wish to swap with what you have? (Enter: Sword, Armor, or Healing) ");
+            String item = input.nextLine();
+            if (item.equals("Sword")) {
 
-        }
+            }
+            else if (item.equals("Armor")) {
+
+            }
+            else if (item.equals("Healing")) {
+        
+            }
+        }   
+
     }
     public static void swapInven(String item) {
-        if (item.)
+        Scanner quick = new Scanner(System.in);
+        if (swords.contains(item)) {
+            System.out.println("You are swaping " + currentSword + " With " + item + ". Is this want you want to do? (true or false)");
+            boolean tf = quick.nextBoolean();
+            if (tf == true) {
+                currentSword = item;
+            } 
+            else { 
+                System.out.println("No swap was made.");
+            }
+        }
+        else if (armorPieces.contains(item)) {
+            System.out.println("You are swaping " + currentArmor + " With " + item + ". Is this want you want to do? (true or false)");
+            boolean tf = quick.nextBoolean();
+            if (tf == true) {
+                currentArmor = item;
+            } // if they didnt want to swap then it doesnt swap the item (duh)
+            else {
+                System.out.println("No swap was made.");
+            }
+        }
+        else {
+            System.out.println("That item doesn't exist in ur inventory loll");
+        }
     }
+    public static int attackDamage() {
+        System.out.println("Your current sword is " + currentSword);       
+        if (currentSword.equals("Aspect of the End")) {
+            int damage = rolld8() + 5;
+            return damage;
+        }
+        else if (currentSword.equals("Rogue Sword")) {
+            int damage = rolld8() -1;
+            return damage;
+        }
+        else if (currentSword.equals("Aspect of the Dragons")) {
+            int damage = rolld8() + 8;
+            return damage;
+        }
+        else if (currentSword.equals("Livid Dagger")) {
+            int damage = rolld8()+12;
+            return damage;
+        }
+        else {
+            return 1;
+        }
+    }
+    public static void useHealing(String item) {
+        if (item.equals("Wand of Healing")) {
+            System.out.println("You used your Wand of Healing"); 
+            playerHealth+=2;
+        }
+        else if (item.equals("Apple")) {
+            System.out.println("You ate the apple and it healed you 4 HP!");
+            playerHealth+=4;
+            healingItems.remove(item);
+        }
+        else if (item.equals("Healing Orb")) {
+            System.out.println("Your Healing Orb heals you 12 HP!");
+            playerHealth+=12;
+            healingItems.remove(item);
+        }
+    }
+
 }
 
 /*
@@ -281,4 +358,4 @@ need to fix the choices tbh
 checkAction can be fixed to go back to the previous scene
 printActions is not returning back to scene, make a variable called previousScene and then go back to it
 
-*/
+*/   
