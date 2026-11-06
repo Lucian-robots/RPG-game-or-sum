@@ -6,8 +6,10 @@ public class GameDriver {
     public static final String YELLOW = "\u001B[33m";
     public static final String BLUE = "\u001B[34m";
     public ArrayList<String> inventory = new ArrayList<>();
-    int gold;
+    public static int gold;
     String currentSword;
+    public int bossHealth;
+    public int playerModifier;
 
     public static void main(String[]args) {
         players p1 = new players();
@@ -77,6 +79,9 @@ public class GameDriver {
         else if (action.equals("Change Sword")) {
 
         }
+        else if (action.equals("Secrets")) {
+            secrets();
+        }
     }
 
     // annoying logic to add down here to make stuff easier
@@ -93,11 +98,88 @@ public class GameDriver {
             printControls();
         }
         else if (choice.equals("Look Around")) {
-
+            System.out.println("You look around and see nothing, so you choose to go deeper into the catacombs");
+            thirdScene();
         }
-        else if (choice.equals("Secrets")) {
-            
+        else {
+            checkAction(choice);
+            System.out.println("With no other choices, you go further into the catacombs. ");
+            thirdScene();
         }
         
-    } 
-}
+    }
+    
+     
+    
+    public static void secrets() {
+        int isSecret = (int) (Math.random() *10);
+
+        if (isSecret > 2) {
+            System.out.println("No secrets found.");
+        }
+        else {
+            System.out.println("You found 100 gold in a chest!");
+            gold+=100;
+        }
+    }
+
+    public static void thirdScene() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("As you walk further into the catacombs, you see a black door. As you look around, you see a Necromancer in the corner. What do you do? ");
+        System.out.println("As always, entering '2' will show you basic options. ");
+        String choice = input.nextLine();
+        if (choice.equals("2")) {
+            printControls();
+        }
+        else if (choice.equals("Attack")) {
+            System.out.println("The Necromancer Wonders why you would ever attck him but you do.");
+            attackNecromancer();
+        }
+    }
+
+    //
+    public static void attackNecromancer() {
+        
+        System.out.println("You must roll and d20 twice and take the higher number but due to your armor stats, your modifier is -2");
+    }
+    
+    
+    // modifier is a -+ value. - means harder boss and + means easier boss. howManyRolls is obvious, highLow is the "difficulty" like the boss is hard
+    // so the highLow value would take the lowest roll value. Num to roll is the value of which they need to roll. this value is normally 10 or higher. 
+    public static void rolld20(int modifier, int howManyRolls, String highLow, int numToRoll) {
+        int min = 1000;
+        int max = 0;
+        if (howManyRolls == 1) {
+            int rollNum = rolld20();         
+            if (rollNum + modifier > numToRoll) {
+                System.out.println("You rolled a " + rollNum + " and your modifier was " + modifier + " Good job!");
+            }
+            else {
+                System.out.println("Your attack missed! It is now the necromancers turn...");
+
+            }   
+        }
+        else if (howManyRolls > 1) {
+            for (int i = 0; i < howManyRolls; i++) { 
+                int rollDum = rolld20();
+                if (rollDum > max) {
+                    max = rollDum;
+                }
+                else if (rollDum < min) {
+                    min = rollDum;
+                }
+            }
+        }
+        else {
+            System.out.println("Error");
+        }
+    }
+    public static int rolld20() {
+        int rolledNum;
+        rolledNum = (int) (Math.random()*20)+1;
+        return rolledNum;
+    }
+    public static void bossTurn() {
+        
+    }
+} 
