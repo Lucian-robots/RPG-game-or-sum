@@ -144,14 +144,17 @@ public class GameDriver {
     }
     public static void fourthScene() {
         Scanner input = new Scanner(System.in);
-        System.out.println("You killed your first boss. When he fades away, he drops a key. You walk up to the big door and unlock it to get into the next room. Here, there is a puzzle room, and a room filled with skeletons and zombies. Do you Attack or Solve Puzzle?");
+        System.out.println("You killed your first boss. When he fades away, he drops a key. You walk up to the big door and unlock it to get into the next room. Here, there is a "+BLUE+"puzzle"+ANSI_RESET+" room, and a "+RED+"room filled with skeletons and zombies."+ANSI_RESET+" Do you Attack or Solve Puzzle?");
         String choice = input.nextLine();
         if (choice.equals("Attack")) {
            berzerkRoom();
+           System.out.println("As you finish killing all of the mobs, you go into the puzzle room");
+           solvePuzzle("random");
         }
         else if (choice.equals("Solve Puzzle")) {
             solvePuzzle("random");
             System.out.println("\nAs you leave the puzzle room, you turn to enter the room with mobs.\n");
+            berzerkRoom();
         }
         else {
             System.out.println("Input was invalid");
@@ -505,6 +508,7 @@ public class GameDriver {
             }
             if (amountCorrect > 0) {
                 System.out.println("You answered correctly! The wizard grants you 5 health and...");
+                playerHealth+=5;
                 System.out.println(GREEN+"\nYou got a Wand Of Healing!! This item is added to your inventory! \n"+ANSI_RESET);
                 healingItems.add("Wand of Healing");
             }
@@ -576,13 +580,18 @@ public class GameDriver {
             System.out.println("There are " + zombies.size() + " zombies left");
             System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
             int choice = input.nextInt();
-            mobAttack(0, 2, 10, "Zombie", choice);
+            mobAttack(2, 2, 10, "Zombie", choice);
+            int playerDamage = attackDamage();
+            System.out.println("You deal " + playerDamage + " damage to the zombie");
+            int newHealth = zombies.get(choice) - playerDamage;
+            
+            zombies.set(choice, newHealth);
         }
     }
 
     public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentMob) {
         if (name.equals("Skeleton")) {
-            if (currentMob < 0) {
+            if (skeletons.get(currentMob) < 0) {
                 System.out.println("Current skelly is dead");
                 skeletons.remove(currentMob);
             } 
@@ -599,7 +608,7 @@ public class GameDriver {
             }
         }
         else if (name.equals("Zombie")) {
-            if (currentMob > 0) {
+            if (zombies.get(currentMob) > 0) {
                 int roll = rolld20();
                 if (roll + mobModifier - playerModifier > numToRoll) {
                     int zomDamage = (((rolld8() + mobModifier) - playerModifier) - 2);
@@ -610,13 +619,12 @@ public class GameDriver {
             else {
                 System.out.println("Current zombie is dead");
                 zombies.remove(currentMob);
-
             }
         }
     }
     //
     //
-    //
+    //Look Around
 }
 
 
