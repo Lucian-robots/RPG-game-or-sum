@@ -14,7 +14,6 @@ public class GameDriver {
     public static ArrayList miscItems = new ArrayList<>();
     public static ArrayList<String> inventory = new ArrayList<>();
     
-    
     public static int gold;
     public static String currentSword = "Rogue Sword";
     public static int bossHealth;
@@ -32,9 +31,9 @@ public class GameDriver {
         System.out.println(p1.mageGetHealth());
         
         System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have capitial letters and correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
-        System.out.println(ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\""+ANSI_RESET);
+        System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n\n\n"+ANSI_RESET);
         
-        printControls();
+        //printControls();
         openingScene(); 
     }
     public String openChest() {
@@ -152,6 +151,7 @@ public class GameDriver {
         }
         else if (choice.equals("Solve Puzzle")) {
             solvePuzzle("random");
+            System.out.println("\nAs you leave the puzzle room, you turn to enter the room with mobs.\n");
         }
         else {
             System.out.println("Input was invalid");
@@ -525,9 +525,47 @@ public class GameDriver {
         //
     
     }
+    public static void berzerkRoom() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("You enter the room filled with mobs. To the right, there are zombies, and to the left, there are skeletons. They all have a pretty low modifier, but remeber, there are more of them than you. Do you go left or right?");
+        String LorR = input.nextLine();
+        if (LorR.equals("Right")) {
+
+        }
+        else {
+            System.out.println("So you chose to attack the Skeletons first. They all have a long ranged attack and a modifier of 0. Your current modifier is 2");
+        }
+    }
     public static void dead() {
         System.out.println("you died.");
         System.exit(0);
+    }
+    public static ArrayList<Integer> skeletons = new ArrayList<>();
+    public static void skellys() {
+        Scanner input = new Scanner(System.in);
+        for (int i = 0; i < 3; i ++) {
+            skeletons.add(10);
+        }
+        while (!(skeletons.size() == 0) || playerHealth > 0) {
+            System.out.println("your current health is: " + playerHealth);
+            System.out.println("There are " + skeletons.size() + " skeletons left");
+            System.out.println("Who do you attack first? (0-" + (skeletons.size()-1));
+            String choice = input.nextLine();
+            if (choice.equals("0")) {
+                
+            }
+        }
+    }
+    public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentSkellHealth) {
+        if (name.equals("Skeleton")) {
+            if (currentSkellHealth < 0) {
+                System.out.println("Current skelly is dead");
+                skeletons.remove(0);
+            }
+        }
+        else if (name.equals("Zombie")) {
+
+        }
     }
     //
     //
