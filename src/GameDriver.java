@@ -147,7 +147,7 @@ public class GameDriver {
         System.out.println("You killed your first boss. When he fades away, he drops a key. You walk up to the big door and unlock it to get into the next room. Here, there is a puzzle room, and a room filled with skeletons and zombies. Do you Attack or Solve Puzzle?");
         String choice = input.nextLine();
         if (choice.equals("Attack")) {
-           // bezerkerRoom();
+           berzerkRoom();
         }
         else if (choice.equals("Solve Puzzle")) {
             solvePuzzle("random");
@@ -525,46 +525,93 @@ public class GameDriver {
         //
     
     }
+    
     public static void berzerkRoom() {
         Scanner input = new Scanner(System.in);
         System.out.println("You enter the room filled with mobs. To the right, there are zombies, and to the left, there are skeletons. They all have a pretty low modifier, but remeber, there are more of them than you. Do you go left or right?");
         String LorR = input.nextLine();
         if (LorR.equals("Right")) {
-
+            zombies(3);
+            System.out.println("You defeated all of the zombies!");
         }
         else {
             System.out.println("So you chose to attack the Skeletons first. They all have a long ranged attack and a modifier of 0. Your current modifier is 2");
+            skellys(3);
         }
     }
     public static void dead() {
         System.out.println("you died.");
         System.exit(0);
     }
+    
+    
+    
+    // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
-    public static void skellys() {
+    public static void skellys(int amoung) {
         Scanner input = new Scanner(System.in);
         for (int i = 0; i < 3; i ++) {
-            skeletons.add(10);
+            skeletons.add(8);
         }
-        while (!(skeletons.size() == 0) || playerHealth > 0) {
+        while (!(skeletons.size() == 0) && playerHealth > 0) {
             System.out.println("your current health is: " + playerHealth);
             System.out.println("There are " + skeletons.size() + " skeletons left");
             System.out.println("Who do you attack first? (0-" + (skeletons.size()-1));
             String choice = input.nextLine();
-            if (choice.equals("0")) {
+            if (choice.equals("0")) { 
                 
             }
         }
     }
-    public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentSkellHealth) {
+    
+    // for fighting zombies
+    public static ArrayList<Integer> zombies = new ArrayList<>();
+    public static void zombies(int amount) {
+        Scanner input = new Scanner(System.in);
+        for (int i = 0; i < amount; i++) {
+            zombies.add(12);
+        }
+        while(!(zombies.isEmpty()) && playerHealth > 0) {
+            System.out.println("Your current health is " + playerHealth);
+            System.out.println("There are " + zombies.size() + " zombies left");
+            System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
+            int choice = input.nextInt();
+            mobAttack(0, 2, 10, "Zombie", choice);
+        }
+    }
+
+    public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentMob) {
         if (name.equals("Skeleton")) {
-            if (currentSkellHealth < 0) {
+            if (currentMob < 0) {
                 System.out.println("Current skelly is dead");
-                skeletons.remove(0);
+                skeletons.remove(currentMob);
+            } 
+            else {
+                int roll = rolld20();
+                if (roll + mobModifier - playerModifier >= numToRoll) {
+                    int skellyDamage = (((rolld8() + mobModifier) - playerModifier)-2);
+                    System.out.println("The skeleton did " + skellyDamage + " damage to you. ");
+                    playerHealth-=skellyDamage;
+                }
+                else {
+                    System.out.println("You dodged its attack!");
+                }
             }
         }
         else if (name.equals("Zombie")) {
+            if (currentMob > 0) {
+                int roll = rolld20();
+                if (roll + mobModifier - playerModifier > numToRoll) {
+                    int zomDamage = (((rolld8() + mobModifier) - playerModifier) - 2);
+                    playerHealth-=zomDamage;
+                    System.out.println("The skeleton attacks you and deals " + zomDamage);
+                }
+            }
+            else {
+                System.out.println("Current zombie is dead");
+                zombies.remove(currentMob);
 
+            }
         }
     }
     //
@@ -573,11 +620,11 @@ public class GameDriver {
 }
 
 
-/*
+/*X
 the boss thing needs to be universal              DONE                       
 scenes are getting long, remember the inventory   DONE                    
-need to fix the choices tbh
-checkAction can be fixed to go back to the previous scene
+need to fix the choices tbh                       DONE
+checkAction can be fixed to go back to the previous scene   DONE
 printActions is not returning back to scene, make a variable called previousScene and then go back to it
 
 */    
