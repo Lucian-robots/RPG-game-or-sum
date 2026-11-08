@@ -81,6 +81,7 @@ public class GameDriver {
      
     // literally just checks the action 
     public static void checkAction(String action) {
+        Scanner input = new Scanner(System.in);
         if (action.equals("Change Sword")) {
             inventory("Sword");
         }
@@ -89,6 +90,11 @@ public class GameDriver {
         }
         else if (action.equals("Secrets")) {
             secrets();
+        }
+        else if (action.equals("Use Healing Item")) {
+            System.out.println("What item do you want to use: " + healingItems);
+            String choice = input.nextLine();
+            useHealing(choice);
         }
     }
     public static void secondScene() {
@@ -157,10 +163,10 @@ public class GameDriver {
             berzerkRoom();
         }
         else {
-            System.out.println("Input was invalid");
+            System.out.println("Input was invalid"); 
             fourthScene();
         }
-
+        
     }
 
     public static void bossFight() {
@@ -182,15 +188,18 @@ public class GameDriver {
                     bossTurn(1, -2, "Necromancer");
                     System.out.println("The bosses health is " + bossHealth);
                     System.out.println("Your health is: " + playerHealth);
-                    System.out.println("Do you want to use a healing ability or try to escape?");
+                    System.out.println("Do you want to use a healing ability or try to escape? PRESS ENTER TO KEEP GOING");
                     String choice = input.nextLine();
                     if (choice.equals("Escape")) {
-                        System.out.println("You attempt to escape but fail and the boss kills you. ");
+                        System.out.println("You attempt to escape but fail and the boss kills you\n. ");
                         playerHealth = 0;
                     }
                     else if (choice.equals("Healing")) {
                         System.out.println("You try to use a healing ability but have none!");
                         bossFight(); 
+                    }
+                    else if (choice.equals("")) {
+                        System.out.println("You keep fighting");
                     }
                     else {
                         System.out.println("Invalid Input");
@@ -374,24 +383,25 @@ public class GameDriver {
         }
     }
     public static int attackDamage() {
-        System.out.println("Your current sword is " + currentSword);       
-        if (currentSword.equals("Aspect of the End")) {
+        System.out.println(YELLOW+"Your current sword is " + currentSword);       
+        if (currentSword.equals("Aspect of the End"+ANSI_RESET)) {
             int damage = rolld8() + 5;
             return damage;
         }
-        else if (currentSword.equals("Rogue Sword")) {
+        else if (currentSword.equals("Rogue Sword"+ANSI_RESET)) {
             int damage = rolld8() -1;
             return damage;
         }
-        else if (currentSword.equals("Aspect of the Dragons")) {
+        else if (currentSword.equals("Aspect of the Dragons"+ANSI_RESET)) {
             int damage = rolld8() + 8;
             return damage;
         }
-        else if (currentSword.equals("Livid Dagger")) {
+        else if (currentSword.equals("Livid Dagger"+ANSI_RESET)) {
             int damage = rolld8()+12;
             return damage;
         }
         else {
+            System.out.println(ANSI_RESET);
             return 1;
         }
     }
@@ -526,8 +536,8 @@ public class GameDriver {
             System.out.println(ANSI_UNDERLINE+"You have " + playerHealth + " health remaining. Don't die. "+ANSI_RESET);
             System.out.println(ANSI_RESET+"The wizard makes you leave and when you step out a door blocks the entrance to the puzzle room.");
         }
-        //
-    
+        // 
+     
     }
     
     public static void berzerkRoom() {
@@ -541,6 +551,7 @@ public class GameDriver {
         else {
             System.out.println("So you chose to attack the Skeletons first. They all have a long ranged attack and a modifier of 0. Your current modifier is 2");
             skellys(3);
+            System.out.println("You defeated the skeletons!");
         }
     }
     public static void dead() {
@@ -552,19 +563,26 @@ public class GameDriver {
     
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
-    public static void skellys(int amoung) {
+    public static void skellys(int amount) {
         Scanner input = new Scanner(System.in);
-        for (int i = 0; i < 3; i ++) {
+        for (int i = 0; i < amount; i ++) {
             skeletons.add(8);
         }
         while (!(skeletons.size() == 0) && playerHealth > 0) {
-            System.out.println("your current health is: " + playerHealth);
-            System.out.println("There are " + skeletons.size() + " skeletons left");
-            System.out.println("Who do you attack first? (0-" + (skeletons.size()-1));
-            String choice = input.nextLine();
-            if (choice.equals("0")) { 
+            
+                System.out.println("Your current health is " + playerHealth);
+                System.out.println("There are " + skeletons.size() + " skeletons left");
+                System.out.println("Which one do you attack? (0-" + (skeletons.size()-1));
+                int choice = input.nextInt();
+                mobAttack(2, 2, 10, "Skeleton", choice);
+                int playerDamage = attackDamage();
+                System.out.println("You deal " + playerDamage + " damage to the Skeleton");
+                int newHealth = skeletons.get(choice) - playerDamage;
                 
-            }
+                skeletons.set(choice, newHealth);
+                if (skeletons.get(choice) < 0) {
+                    skeletons.remove(choice);
+                }
         }
     }
     
@@ -576,6 +594,7 @@ public class GameDriver {
             zombies.add(12);
         }
         while(!(zombies.isEmpty()) && playerHealth > 0) {
+            
             System.out.println("Your current health is " + playerHealth);
             System.out.println("There are " + zombies.size() + " zombies left");
             System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
@@ -586,39 +605,42 @@ public class GameDriver {
             int newHealth = zombies.get(choice) - playerDamage;
             
             zombies.set(choice, newHealth);
+            if (zombies.get(choice) < 0) {
+                zombies.remove(choice);
+            }
         }
     }
 
     public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentMob) {
         if (name.equals("Skeleton")) {
             if (skeletons.get(currentMob) < 0) {
-                System.out.println("Current skelly is dead");
+                System.out.println(RED+"Current skelly is dead"+ANSI_RESET);
                 skeletons.remove(currentMob);
             } 
             else {
                 int roll = rolld20();
                 if (roll + mobModifier - playerModifier >= numToRoll) {
                     int skellyDamage = (((rolld8() + mobModifier) - playerModifier)-2);
-                    System.out.println("The skeleton did " + skellyDamage + " damage to you. ");
+                    System.out.println(RED+"The skeleton did " + skellyDamage + " damage to you. "+ANSI_RESET);
                     playerHealth-=skellyDamage;
                 }
                 else {
-                    System.out.println("You dodged its attack!");
+                    System.out.println(RED+"You dodged its attack!"+ANSI_RESET);
                 }
             }
         }
         else if (name.equals("Zombie")) {
             if (zombies.get(currentMob) > 0) {
-                int roll = rolld20();
+                int roll = rolld20(); 
                 if (roll + mobModifier - playerModifier > numToRoll) {
                     int zomDamage = (((rolld8() + mobModifier) - playerModifier) - 2);
                     playerHealth-=zomDamage;
-                    System.out.println("The skeleton attacks you and deals " + zomDamage);
+                    System.out.println(RED+"The skeleton attacks you and deals " + zomDamage+ANSI_RESET);
                 }
             }
             else {
-                System.out.println("Current zombie is dead");
-                zombies.remove(currentMob);
+                System.out.println(RED+"Current zombie is dead"+ANSI_RESET);
+                //zombies.remove(currentMob);
             }
         }
     }
