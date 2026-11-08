@@ -1,18 +1,20 @@
-## Getting Started
+## How to Run on macOS
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Because macOS blocks unknown scripts by default for security, other Mac users need to give the launcher permission to run the first time they download it. 
 
-## Folder Structure
+Follow these quick steps to launch the game:
 
-The workspace contains two folders by default, where:
+### 1. Open Terminal in the Game Folder
+1. Open your Mac's **Finder** and navigate to the `src` folder containing the game files.
+2. Right-click (or two-finger tap) the `src` folder.
+3. Select **New Terminal at Folder** (or *Services > New Terminal at Folder*).
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+### 2. Authorize the Launcher
+Paste the following command into the Terminal window that pops up and press **Enter**:
+```bash
+chmod +x PlayGame.command
+```
+*(You will only ever need to do this step once).*
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+### 3. Play the Game!
+You can now close the Terminal. Going forward, simply **double-click `PlayGame.command`** directly inside your Finder to launch the game instantly!
