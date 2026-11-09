@@ -1,3 +1,8 @@
+/*
+first couple of choices are mandatory but after that (after the zombie and skeleton fight) then you can choose where to go. (maybe)
+
+
+*/
 import java.util.ArrayList;
 import java.util.Scanner;
 public class GameDriver {
@@ -30,7 +35,7 @@ public class GameDriver {
         p1.mageChangeHealth(100);
         System.out.println(p1.mageGetHealth());
         
-        System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have capitial letters and correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
+        System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
         System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n\n\n"+ANSI_RESET);
         
         //printControls();
@@ -65,9 +70,8 @@ public class GameDriver {
         System.out.print("and wonder what this place was for. Looking ahead, you notice a guard at the door. What do you do. ");
         printControls();
         String choice1 = input.nextLine();
-        if (choice1.equals("Look Around")) {
+        if (caseSensitive(choice1).equals("Look Around")) {
             System.out.println("You look around and notice nothing new except for the weird engravings on the wall. You try talking to the man");
-            checkAction(choice1);
             secondScene();
         }
         else if (choice1.equals("Talk")) {
@@ -75,7 +79,8 @@ public class GameDriver {
             secondScene();
         }
         else {
-            checkAction(choice1);
+            checkAction(caseSensitive(choice1));
+            secondScene();
         }
     }
      
@@ -108,7 +113,7 @@ public class GameDriver {
         if (choice.equals("2")) {
             printControls();
         }
-        else if (choice.equals("Look Around")) {
+        else if (caseSensitive(choice).equals("Look Around")) {
             System.out.println("You look around and see nothing, so you choose to go deeper into the catacombs");
             thirdScene();
         }
@@ -142,9 +147,14 @@ public class GameDriver {
             printControls();
             thirdScene();
         }
-        else if (choice.equals("Attack")) {
+        else if (caseSensitive(choice).equals("Attack")) {
             System.out.println(RED+ "The Necromancer Wonders why you would ever attck him but you do." + ANSI_RESET);
             bossHealth = 20;
+            bossFight();
+        }
+        else {
+            checkAction(caseSensitive(choice));
+            System.out.println("You have no choice but to fight the Necromancer");
             bossFight();
         }
     }
@@ -152,12 +162,12 @@ public class GameDriver {
         Scanner input = new Scanner(System.in);
         System.out.println("You killed your first boss. When he fades away, he drops a key. You walk up to the big door and unlock it to get into the next room. Here, there is a "+BLUE+"puzzle"+ANSI_RESET+" room, and a "+RED+"room filled with skeletons and zombies."+ANSI_RESET+" Do you Attack or Solve Puzzle?");
         String choice = input.nextLine();
-        if (choice.equals("Attack")) {
+        if (caseSensitive(choice).equals("Attack")) {
            berzerkRoom();
            System.out.println("As you finish killing all of the mobs, you go into the puzzle room");
            solvePuzzle("random");
         }
-        else if (choice.equals("Solve Puzzle")) {
+        else if (caseSensitive(choice).equals("Solve Puzzle")) {
             solvePuzzle("random");
             System.out.println("\nAs you leave the puzzle room, you turn to enter the room with mobs.\n");
             berzerkRoom();
@@ -547,11 +557,18 @@ public class GameDriver {
         if (LorR.equals("Right")) {
             zombies(3);
             System.out.println("You defeated all of the zombies!");
+            System.out.println("Now it's time for the skeletons");
+            System.out.println("You probably need to heal so lets see what you have");
+            checkAction("Use Healing Item");
+            skellys(3);
         }
         else {
             System.out.println("So you chose to attack the Skeletons first. They all have a long ranged attack and a modifier of 0. Your current modifier is 2");
             skellys(3);
             System.out.println("You defeated the skeletons!");
+            System.out.println("Lets see if you can heal before you fight the zombies");
+            checkAction("Use Healing Item");
+            zombies(3);
         }
     }
     public static void dead() {
@@ -647,9 +664,13 @@ public class GameDriver {
     //
     //
     //Look Around
+    public static String caseSensitive(String word) {
+        String lowerCase = word.toLowerCase();
+        return lowerCase;
+    }
 }
 
-
+// this project will go into week 4
 /*X
 the boss thing needs to be universal              DONE                       
 scenes are getting long, remember the inventory   DONE                    
@@ -657,4 +678,4 @@ need to fix the choices tbh                       DONE
 checkAction can be fixed to go back to the previous scene   DONE
 printActions is not returning back to scene, make a variable called previousScene and then go back to it
 
-*/    
+*/ 
