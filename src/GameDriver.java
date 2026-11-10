@@ -98,7 +98,7 @@ public class GameDriver {
             secrets();
         }
         else if (action.equals("use healing item")) {
-            System.out.println("What item do you want to use: " + healingItems);
+            System.out.println(BLUE+"What item do you want to use: " + healingItems);
             String choice = input.nextLine();
             useHealing(choice);
         }
@@ -156,6 +156,7 @@ public class GameDriver {
         else {
             checkAction(caseSensitive(choice));
             System.out.println("You have no choice but to fight the Necromancer");
+            bossHealth = 20;
             bossFight();
         }
     }
@@ -320,7 +321,7 @@ public class GameDriver {
     }
     // inventory tracking  
     public static void inventory(String items) {
-        
+        System.out.println(BLUE + ".");
         if (items.equals("Swords")) {
             if (!swords.isEmpty()) {
                 System.out.println("Here are the swords you have: " + swords); 
@@ -364,7 +365,8 @@ public class GameDriver {
             else {
                 System.out.println("incorrect input");
             }
-        }   
+        }
+        System.out.println("."+ANSI_RESET);   
 
     }
     public static void swapInven(String item) {
@@ -417,20 +419,22 @@ public class GameDriver {
         }
     }
     public static void useHealing(String item) {
+        System.out.println(BLUE);
         if (item.equals("Wand of Healing")) {
             System.out.println("You used your Wand of Healing"); 
-            playerHealth+=2;
+            playerHealth+=5;
         }
         else if (item.equals("Apple")) {
             System.out.println("You ate the apple and it healed you 4 HP!");
-            playerHealth+=4;
+            playerHealth+=10;
             healingItems.remove(item);
         }
         else if (item.equals("Healing Orb")) {
             System.out.println("Your Healing Orb heals you 12 HP!");
-            playerHealth+=12;
+            playerHealth+=15;
             healingItems.remove(item);
         }
+        System.out.println(ANSI_RESET);
     }
     public static void solvePuzzle(String puzzle) {
         int amountCorrect=0;
@@ -555,7 +559,7 @@ public class GameDriver {
         Scanner input = new Scanner(System.in);
         System.out.println("You enter the room filled with mobs. To the right, there are zombies, and to the left, there are skeletons. They all have a pretty low modifier, but remeber, there are more of them than you. Do you go left or right?");
         String LorR = input.nextLine();
-        if (LorR.equals("Right")) {
+        if (caseSensitive(LorR).equals("right")) {
             zombies(3);
             System.out.println("You defeated all of the zombies!");
             System.out.println("Now it's time for the skeletons");
@@ -563,13 +567,17 @@ public class GameDriver {
             checkAction("Use Healing Item");
             skellys(3); 
         }
-        else {
+        else if (caseSensitive(LorR).equals("left")){
             System.out.println("So you chose to attack the Skeletons first. They all have a long ranged attack and a modifier of 0. Your current modifier is 2");
             skellys(3);
             System.out.println("You defeated the skeletons!");
             System.out.println("Lets see if you can heal before you fight the zombies");
             checkAction("Use Healing Item");
             zombies(3);
+        }
+        else {
+            System.out.println("Invalid input. Left or Right");
+            berzerkRoom();
         }
     }
     public static void dead() {
@@ -583,28 +591,40 @@ public class GameDriver {
     public static ArrayList<Integer> skeletons = new ArrayList<>();
     public static void skellys(int amount) {
         Scanner input = new Scanner(System.in);
-        for (int i = 0; i < amount; i ++) {
+        for (int i = 0; i < amount; i++) {
             skeletons.add(4);
         }
-        while (!(skeletons.size() == 0) && playerHealth > 0) {
-                if (playerHealth < 0 ) {
-                    System.out.println("Player has died");
-                    break;
-                }
-                System.out.println("Your current health is " + playerHealth);
-                System.out.println("There are " + skeletons.size() + " skeletons left");
-                System.out.println("Which one do you attack? (0-" + (skeletons.size()-1));
-                int choice = input.nextInt();
-                mobAttack(2, 2, 10, "Skeleton", choice);
-                int playerDamage = attackDamage();
-                System.out.println("You deal " + playerDamage + " damage to the Skeleton");
-                int newHealth = skeletons.get(choice) - playerDamage;
-                
-                skeletons.set(choice, newHealth);
-                if (skeletons.get(choice) < 0) {
-                    skeletons.remove(choice);
-                }
+        while(!(skeletons.isEmpty()) && playerHealth > 0) {
+            if (playerHealth < 0 ) {
+                System.out.println("Player has died");
+                break;
+            }
+            System.out.println("Your current health is " + playerHealth);
+            System.out.println("There are " + skeletons.size() + " skeletons left");
+            System.out.println("Which one do you attack? (0-" + (skeletons.size()-1));
+            int choice = input.nextInt();
+            mobAttack(0, 2, 11, "Zombie", choice);
+            int playerDamage = attackDamage();
+            System.out.println("You deal " + playerDamage + " damage to the zombie");
+            int newHealth = skeletons.get(choice) - playerDamage;
+            skeletons.set(choice, newHealth);
+            if (skeletons.get(choice) < 0) {
+                skeletons.remove(choice);
+            }
+            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal?"+ANSI_RESET);
+            input.nextLine();
+            String choice12123 = input.nextLine();
+            if (caseSensitive(choice12123).equals("yes")) {
+                checkAction("use healing item");
+            }
+            else if (caseSensitive(choice12123).equals("no")) {
+                System.out.println("Okay, keep fighting");
+            } 
+            else {
+                System.out.println("Invalid input. it is Yes or No");
+            }
         }
+        System.out.println(GREEN+ANSI_UNDERLINE+"all the skeltons are dead!!"+ANSI_RESET);
     }
     
     // for fighting zombies
@@ -623,7 +643,7 @@ public class GameDriver {
             System.out.println("There are " + zombies.size() + " zombies left");
             System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
             int choice = input.nextInt();
-            mobAttack(2, 2, 10, "Zombie", choice);
+            mobAttack(0, 2, 11, "Zombie", choice);
             int playerDamage = attackDamage();
             System.out.println("You deal " + playerDamage + " damage to the zombie");
             int newHealth = zombies.get(choice) - playerDamage;
@@ -632,18 +652,20 @@ public class GameDriver {
             if (zombies.get(choice) < 0) {
                 zombies.remove(choice);
             }
-            System.out.println("Do you want to heal?");
+            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal?"+ANSI_RESET);
+            input.nextLine();
             String choice12123 = input.nextLine();
             if (caseSensitive(choice12123).equals("yes")) {
                 checkAction("use healing item");
             }
             else if (caseSensitive(choice12123).equals("no")) {
                 System.out.println("Okay, keep fighting");
-            }
+            } 
             else {
                 System.out.println("Invalid input. it is Yes or No");
             }
         }
+        System.out.println(GREEN+ANSI_UNDERLINE+"all the zombies are dead!!"+ANSI_RESET);
     }
 
     public static void mobAttack(int mobModifier, int playerModifier, int numToRoll, String name, int currentMob) {
@@ -654,7 +676,7 @@ public class GameDriver {
             } 
             else {
                 int roll = rolld20();
-                if (roll + mobModifier - playerModifier >= numToRoll) {
+                if ((roll + mobModifier) - playerModifier >= numToRoll) {
                     int skellyDamage = (((rolld8() + mobModifier) - playerModifier)-2);
                     System.out.println(RED+"The skeleton did " + skellyDamage + " damage to you. "+ANSI_RESET);
                     playerHealth-=skellyDamage;
