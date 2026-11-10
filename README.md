@@ -4,17 +4,21 @@ Because macOS blocks unknown scripts by default for security, other Mac users ne
 
 Follow these quick steps to launch the game:
 
-### 1. Open Terminal in the Game Folder
+### 1. Download the files in the release
+
+### 2. Open Terminal in the Game Folder
 1. Open your Mac's **Finder** and navigate to the `src` folder containing the game files.
 2. Right-click (or two-finger tap) the `src` folder.
 3. Select **New Terminal at Folder** (or *Services > New Terminal at Folder*).
 
-### 2. Authorize the Launcher
+### 3. Authorize the Launcher
 Paste the following command into the Terminal window that pops up and press **Enter**:
 ```bash
 chmod +x PlayGame.command
 ```
 *(You will only ever need to do this step once).*
 
-### 3. Play the Game!
+### 4. Play the Game!
 You can now close the Terminal. Going forward, simply **double-click `PlayGame.command`** directly inside your Finder to launch the game instantly!
+
+

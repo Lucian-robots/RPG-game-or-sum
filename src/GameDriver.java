@@ -226,7 +226,21 @@ public class GameDriver {
         rolld20(1, 2, "High", 6);
         // modifier is now high
     }
-     
+    public static void fifthScene() {
+        Scanner input = new Scanner(System.in);
+        System.out.println(YELLOW+"Gongrats on making this far, now, to save the villagers and the realm of skyblock, you must defeat the Witherlord himself.");
+        System.out.println("BUT, you are WAY under geard for this fight. If you wish to proceed, you may. But attacking him now is certain death.");
+        System.out.println("You have the option to either, Attack Witherlord, Do puzzle room, Look for armor, look for swords, or carry on with story");
+        String choice = input.nextLine();
+        if (caseSensitive(choice).equals("attack witherlord")) {
+            System.out.println("What a dumb choice");
+            bossHealth = 100;
+            attackNecromancer();
+        }
+        else if (caseSensitive(choice).equals("do puzzle room")) {
+            System.out.println("You choose to solve a puzzle\n");
+        }
+    }
     
     // modifier is a -+ value. - means harder boss and + means easier boss. howManyRolls is obvious, highLow is the "difficulty" like the boss is hard
     // so the highLow value would take the lowest roll value. Num to roll is the value of which they need to roll. this value is normally 10 or higher. 
@@ -551,7 +565,10 @@ public class GameDriver {
             System.out.println(ANSI_UNDERLINE+"You have " + playerHealth + " health remaining. Don't die. "+ANSI_RESET);
             System.out.println(ANSI_RESET+"The wizard makes you leave and when you step out a door blocks the entrance to the puzzle room.");
         }
-        // 
+        //
+        else if (puzzle.equals("")) {
+
+        } 
      
     }
     
@@ -562,7 +579,7 @@ public class GameDriver {
         if (caseSensitive(LorR).equals("right")) {
             zombies(3);
             System.out.println("You defeated all of the zombies!");
-            System.out.println("Now it's time for the skeletons");
+            System.out.println("Now it's time for the skeletons"); 
             System.out.println("You probably need to heal so lets see what you have");
             checkAction("Use Healing Item");
             skellys(3); 
@@ -584,8 +601,7 @@ public class GameDriver {
         System.out.println("you died.");
         System.exit(0);
     }
-    
-    
+
     
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
@@ -627,7 +643,7 @@ public class GameDriver {
         System.out.println(GREEN+ANSI_UNDERLINE+"all the skeltons are dead!!"+ANSI_RESET);
     }
     
-    // for fighting zombies
+    // for fighting zombies 
     public static ArrayList<Integer> zombies = new ArrayList<>();
     public static void zombies(int amount) {
         Scanner input = new Scanner(System.in);
@@ -701,7 +717,7 @@ public class GameDriver {
             }
         }
     }
-    //
+    // 
     //
     //Look Around
     public static String caseSensitive(String word) {
