@@ -1,5 +1,7 @@
+<img width="2062" height="1082" alt="Screenshot 2026-11-10 at 7 00 20 PM" src="https://github.com/user-attachments/assets/5faa2cd6-d5af-41c5-8a61-565b13b5af2a" />
 
 
+https://github.com/user-attachments/assets/2da3002d-a65d-491a-b114-65998108ce8b
 
 
 ## How to Run on macOS
