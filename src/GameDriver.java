@@ -14,10 +14,10 @@ public class GameDriver {
     public static final String BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
     
-    public static ArrayList healingItems = new ArrayList<>();
-    public static ArrayList swords = new ArrayList<>();
-    public static ArrayList armorPieces = new ArrayList<>();
-    public static ArrayList miscItems = new ArrayList<>();
+    public static ArrayList<String> healingItems = new ArrayList<>();
+    public static ArrayList<String> swords = new ArrayList<>();
+    public static ArrayList<String> armorPieces = new ArrayList<>();
+    public static ArrayList<String> miscItems = new ArrayList<>();
     public static ArrayList<String> inventory = new ArrayList<>();
     
     public static int gold;
@@ -566,9 +566,38 @@ public class GameDriver {
             System.out.println(ANSI_RESET+"The wizard makes you leave and when you step out a door blocks the entrance to the puzzle room.");
         }
         //
-        else if (puzzle.equals("")) {
+        else if (puzzle.equals("riddle")) {
+            int chooseRiddle = (int) (Math.random()*4);
+            if (chooseRiddle >= 4) {
 
-        } 
+            }
+            else if (chooseRiddle >= 3) {
+
+            }
+            else if (chooseRiddle >= 2) {
+                System.out.println("What needs to be broken in order to use it? ");
+                String choice = input.nextLine();
+                if (caseSensitive(choice).equals("egg")) {
+                    System.out.println("That is correct!");
+                    amountCorrect++;
+                }
+                else {
+                    System.out.println("That was wrong. It was an egg!");
+                }
+            }
+            else {
+                
+            }
+            if (amountCorrect > 0) {
+                System.out.println("After answering the question correctly, a hole in the wall opens and a new Armor set is revealed. When you go collect it, you see it's called \"Miner's Armor\"");
+                armorPieces.add(currentArmor);
+                currentArmor = "Miner's Armor";
+                armorPieces.add("Miner's Armor");
+            }
+        }
+        else if (puzzle.equals("math")) {
+
+        }
      
     }
       
@@ -679,7 +708,7 @@ public class GameDriver {
                 if (zombies.get(choice) < 0) {
                     zombies.remove(choice);
                 }
-            } 
+            }
             else {
                 System.out.println("Invalid input. it is Yes or No");
             }
@@ -732,11 +761,11 @@ public class GameDriver {
 }
 
 // this project will go into week 4
-/*X
-the boss thing needs to be universal              DONE                       
-scenes are getting long, remember the inventory   DONE                    
-need to fix the choices tbh                       DONE
-checkAction can be fixed to go back to the previous scene   DONE
-printActions is not returning back to scene, make a variable called previousScene and then go back to it
-
+/*
+make riddles for solzePuzzle 1
+make the math thing for solvePuzzle 2
+go on with story
+more rooms to fight in
+check for secrets for armor
+get armor and new sword fom zombie and skeletons room 3
 */ 
