@@ -6,6 +6,8 @@
 https://github.com/user-attachments/assets/019f1a36-c3d3-472f-81db-daff41e18f78
 
 
+### What this is
+This is a game in your terminal and I made it for fun for terra. There is no backstory
 
 
 ## How to Run on macOS
