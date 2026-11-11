@@ -39,8 +39,10 @@ public class GameDriver {
         System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
         System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n\n\n"+ANSI_RESET);
         
+        solvePuzzle("riddle");
+        
         //printControls();
-        openingScene(); 
+        //openingScene(); 
     }
     public String openChest() {
         int random = (int)(Math.random() * 10) +1;
@@ -355,6 +357,7 @@ public class GameDriver {
         else {
             if (!armorPieces.isEmpty()) {
                 System.out.println("You have these armor pieces: " + armorPieces);
+
             }
             else {
                 System.out.println("You have no armor lol");
@@ -391,9 +394,9 @@ public class GameDriver {
             if (tf == true) {
                 currentSword = item;
             } 
-            else { 
+            else {
                 System.out.println("No swap was made.");
-            } 
+            }
         }
         else if (armorPieces.contains(item)) {
             System.out.println("You are swaping " + currentArmor + " With " + item + ". Is this want you want to do? (true or false)");
@@ -569,10 +572,26 @@ public class GameDriver {
         else if (puzzle.equals("riddle")) {
             int chooseRiddle = (int) (Math.random()*4);
             if (chooseRiddle >= 4) {
-
+                System.out.println("What has one eye but cannot see? (Answer form is: A _______");
+                String choice = input.nextLine();
+                if (caseSensitive(choice).equals("a needle")) {
+                    System.out.println("That was correct!");
+                    amountCorrect+=1;
+                }
+                else {
+                    System.out.println("That is incorrect. The answer was: A Needle");
+                }
             }
             else if (chooseRiddle >= 3) {
-
+                System.out.println("What can you catch, but not throw (answer = A _____");
+                String choice = input.nextLine();
+                if (caseSensitive(choice).equals("a cold")) {
+                    System.out.println("That is correct!");
+                    amountCorrect++;
+                }
+                else {
+                    System.out.println("Wrong, the correct answer was: A Cold");
+                }
             }
             else if (chooseRiddle >= 2) {
                 System.out.println("What needs to be broken in order to use it? ");
@@ -586,13 +605,32 @@ public class GameDriver {
                 }
             }
             else {
-                
+                System.out.println("What is full of holes, but can hold water? (Answer form: A _____)");
+                String choice = input.nextLine();
+                if (caseSensitive(choice).equals("a sponge")) {
+                    System.out.println("That is correct!");
+                    amountCorrect+=1;
+                }
+                else {
+                    System.out.println("That was incorrect, it was: A Sponge");
+                }
             }
+            // if they got correct, then get new armor
             if (amountCorrect > 0) {
-                System.out.println("After answering the question correctly, a hole in the wall opens and a new Armor set is revealed. When you go collect it, you see it's called \"Miner's Armor\"");
+                System.out.println("After answering the question correctly, a hole in the wall opens and a new Armor set is revealed. When you go collect it, you see it's called \"Glacite Armor.\" This armor has a modifier of + 3");
                 armorPieces.add(currentArmor);
-                currentArmor = "Miner's Armor";
-                armorPieces.add("Miner's Armor");
+                currentArmor = "Glacite Armor";
+                armorPieces.add("Glacite Armor");
+            }
+            else {
+                System.out.println("You answered incorrectly. Now, because the boss is so hard (and you need better armor), you can choose to go back to the last scene and get the answer correct (Yes or No)");
+                String YorN = input.nextLine();
+                if (caseSensitive(YorN).equals("yes")) {
+                    fifthScene();
+                }
+                else {
+                    System.out.println("Suit youself ig ¯\\_(ツ)_/¯");
+                }
             }
         }
         else if (puzzle.equals("math")) {
