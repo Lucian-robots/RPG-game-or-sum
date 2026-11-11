@@ -98,7 +98,7 @@ public class GameDriver {
             secrets();
         }
         else if (action.equals("use healing item")) {
-            System.out.println(BLUE+"What item do you want to use: " + healingItems);
+            System.out.println(BLUE+"What item do you want to use (enter the name of the item you want to use): " + healingItems);
             String choice = input.nextLine();
             useHealing(choice);
         }
@@ -571,7 +571,7 @@ public class GameDriver {
         } 
      
     }
-    
+      
     public static void berzerkRoom() {
         Scanner input = new Scanner(System.in);
         System.out.println("You enter the room filled with mobs. To the right, there are zombies, and to the left, there are skeletons. They all have a pretty low modifier, but remeber, there are more of them than you. Do you go left or right?");
@@ -655,20 +655,7 @@ public class GameDriver {
                 System.out.println("Player has died");
                 break;
             }
-            System.out.println("Your current health is " + playerHealth);
-            System.out.println("There are " + zombies.size() + " zombies left");
-            System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
-            int choice = input.nextInt();
-            mobAttack(0, 2, 11, "Zombie", choice);
-            int playerDamage = attackDamage();
-            System.out.println("You deal " + playerDamage + " damage to the zombie");
-            int newHealth = zombies.get(choice) - playerDamage;
-            
-            zombies.set(choice, newHealth);
-            if (zombies.get(choice) < 0) {
-                zombies.remove(choice);
-            }
-            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal?"+ANSI_RESET);
+            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal? You may either only heal or attack this turn"+ANSI_RESET);
             input.nextLine();
             String choice12123 = input.nextLine();
             if (caseSensitive(choice12123).equals("yes")) {
@@ -676,10 +663,28 @@ public class GameDriver {
             }
             else if (caseSensitive(choice12123).equals("no")) {
                 System.out.println("Okay, keep fighting");
+                System.out.println("Your current health is " + playerHealth);
+                System.out.println("There are " + zombies.size() + " zombies left");
+                System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
+                int choice = input.nextInt();
+                mobAttack(0, 2, 11, "Zombie", choice);
+                int playerDamage = attackDamage();
+                System.out.println("You deal " + playerDamage + " damage to the zombie");
+                int newHealth = zombies.get(choice) - playerDamage;
+                zombies.set(choice, newHealth);
+                if (zombies.get(choice) < 0) {
+                    zombies.remove(choice);
+                }
+                zombies.set(choice, newHealth);
+                if (zombies.get(choice) < 0) {
+                    zombies.remove(choice);
+                }
             } 
             else {
                 System.out.println("Invalid input. it is Yes or No");
             }
+            
+            
         }
         System.out.println(GREEN+ANSI_UNDERLINE+"all the zombies are dead!!"+ANSI_RESET);
     }
