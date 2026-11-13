@@ -37,13 +37,14 @@ public class GameDriver {
         System.out.println(p1.mageGetHealth());
         
         System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
-        System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n\n\n"+ANSI_RESET);
-        
-        // solvePuzzle("riddle");
-        
+        System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n"+ANSI_RESET);
+        System.out.println(BLUE+ANSI_UNDERLINE+"Note that spamming actions can result in unwanted actions if a new method pops up after the one that was spammed.\n\n"+ANSI_RESET);
+        while (true) {
+            solvePuzzle("random");
+        }
         //printControls();
         //openingScene(); 
-        berzerkRoom();
+        //berzerkRoom();
     }
     public String openChest() {
         int random = (int)(Math.random() * 10) +1;
@@ -180,7 +181,7 @@ public class GameDriver {
         else {
             System.out.println("Input was invalid"); 
             fourthScene();
-        }
+        } // advance to new scene 
         
     }
 
@@ -232,8 +233,8 @@ public class GameDriver {
     public static void fifthScene() {
         Scanner input = new Scanner(System.in);
         System.out.println(YELLOW+"Congrats on making this far, now, to save the villagers and the realm of skyblock, you must defeat the Witherlord himself.");
-        System.out.println("\tBUT, you are WAY under geard for this fight. If you wish to proceed, you may. But attacking him now is certain death.");
-        System.out.println("\t\tYou have the option to either, Attack Witherlord, Do puzzle room, Look for armor, look for swords, or carry on with story");
+        System.out.println("\tBUT, you are WAY under-geard for this fight. If you wish to proceed, you may. But attacking him now is certain death.");
+        System.out.println("\t\tYou have the option to either, Attack Witherlord, Do puzzle room, Look for armor, look for swords, or, carry on with story");
         String choice = input.nextLine();
         if (caseSensitive(choice).equals("attack witherlord")) {
             System.out.println("What a dumb choice");
@@ -242,9 +243,27 @@ public class GameDriver {
         }
         else if (caseSensitive(choice).equals("do puzzle room")) {
             System.out.println("You choose to solve a puzzle\n");
+            solvePuzzle("riddle");
+            System.out.println("Now you gotta lowk go on with the story mbmb");
+            sixthScene();
+        }
+        else if (caseSensitive(choice).equals("look for armor")) {
+            System.out.println("Go to the puzzle room ;)");
+            fifthScene();
+        }  
+        else if (caseSensitive(choice).equals("carry on with story")) {
+            System.out.println("The puzzle room had armor lol");
+            sixthScene();
+        }
+        else if (caseSensitive(choice).equals("look for swords")) {
+            System.out.println("A new sword may be included in the story fr");
+            fifthScene();
         }
     }
-    
+    public static void sixthScene() {
+        
+    }
+      
     // modifier is a -+ value. - means harder boss and + means easier boss. howManyRolls is obvious, highLow is the "difficulty" like the boss is hard
     // so the highLow value would take the lowest roll value. Num to roll is the value of which they need to roll. this value is normally 10 or higher. 
     public static void rolld20(int modifier, int howManyRolls, String highLow, int numToRoll) {
@@ -415,19 +434,19 @@ public class GameDriver {
     }
     public static int attackDamage() {
         System.out.println(YELLOW+"Your current sword is " + currentSword);       
-        if (currentSword.equals("Aspect of the End"+ANSI_RESET)) {
+        if (currentSword.equals("Aspect of the End")) {
             int damage = rolld8() + 5;
             return damage;
         }
-        else if (currentSword.equals("Rogue Sword"+ANSI_RESET)) {
+        else if (currentSword.equals("Rogue Sword")) {
             int damage = rolld8() -1;
             return damage;
         }
-        else if (currentSword.equals("Aspect of the Dragons"+ANSI_RESET)) {
+        else if (currentSword.equals("Aspect of the Dragons")) {
             int damage = rolld8() + 8;
             return damage;
         }
-        else if (currentSword.equals("Livid Dagger"+ANSI_RESET)) {
+        else if (currentSword.equals("Livid Dagger")) {
             int damage = rolld8()+12;
             return damage;
         }
@@ -435,6 +454,7 @@ public class GameDriver {
             System.out.println(ANSI_RESET);
             return 1;
         }
+        
     }
     public static void useHealing(String item) {
         System.out.println(BLUE);
@@ -456,6 +476,7 @@ public class GameDriver {
         System.out.println(ANSI_RESET);
     }
     public static void solvePuzzle(String puzzle) {
+        System.out.println(BLUE);
         int amountCorrect=0;
         Scanner input = new Scanner(System.in);
         if (puzzle.equals("random")) {
@@ -463,7 +484,7 @@ public class GameDriver {
 
             
             int pickRand = (int)(Math.random()*8)+1;
-            if (pickRand > 8) {
+            if (pickRand == 8) {
                 System.out.println("What was the name of the guy on The Big Bang Theory that went to the ISS? (First name only)");
                 String answer = input.nextLine();
                 if (caseSensitive(answer).equals("howard")) {
@@ -473,7 +494,7 @@ public class GameDriver {
                     System.out.println("It was Howard!");
                 }
             }
-            else if (pickRand > 7) {
+            else if (pickRand == 7) {
                 System.out.println("This bug was also the name of a popular rock band from the 60's (singular)");
                 String answer1 = input.nextLine();
                 if (caseSensitive(answer1).equals("beatle")) {
@@ -484,7 +505,7 @@ public class GameDriver {
                     System.out.println("The answer was \"Beatle\"!");
                 }
             }
-            else if (pickRand > 6) {
+            else if (pickRand== 6) {
                 System.out.println("Who won streamer of the year in 2025?");
                 String answer2 = input.nextLine();
                 if (caseSensitive(answer2).equals("ishowspeed")) {
@@ -495,7 +516,7 @@ public class GameDriver {
                     System.out.println("Incorrect! It was IShowSpeed");
                 }
             }
-            else if (pickRand > 5) {
+            else if (pickRand == 5) {
                 System.out.println("What is the name of the 2026-2027 Vex Robotics Competition? (Hint: It is also apparantly the name of a fortnite season");
                 String answer3 = input.nextLine();
                 if (caseSensitive(answer3).equals("override")) {
@@ -506,7 +527,7 @@ public class GameDriver {
                     System.out.println("Incorrect, sorry you got this question");
                 }
             }
-            else if (pickRand > 4) {
+            else if (pickRand== 4) {
                 System.out.println("This is the name of a godess and NASA's current program to go back to the moon");
                 String answer4 = input.nextLine();
                 if (caseSensitive(answer4).equals("artemis")) {
@@ -517,7 +538,7 @@ public class GameDriver {
                     System.out.println("Seriously? Artemis? You didn't get that?");
                 }
             }
-            else if (pickRand > 3) { 
+            else if (pickRand == 3) { 
                 System.out.println("This is the first name of the guy who created Linux (Hint: This is also the name of a massive tech youtuber!)");
                 String answer5 = input.nextLine();
                 if (caseSensitive(answer5).equals("linus")) {
@@ -528,7 +549,7 @@ public class GameDriver {
                     System.out.println("Okay, how did you get that wrong. It was Linus. you know, like Linus Torvalds?");
                 }
             }
-            else if (pickRand > 2) {
+            else if (pickRand== 2) {
                 System.out.println("What is the name of the math that was invented by Gottfried Wilhelm Leibniz");
                 String answer6 = input.nextLine();
                 if (caseSensitive(answer6).equals("calculus")) {
@@ -539,7 +560,7 @@ public class GameDriver {
                     System.out.println("Wow, that was wrong. Damn");
                 }
             }
-            else {
+            else if (pickRand == 1) {
                 System.out.println("What is the name of the most used phone OS in the world?");
                 String answer7 = input.nextLine();
                 if (caseSensitive(answer7).equals("android")) {
@@ -549,6 +570,9 @@ public class GameDriver {
                 else {
                     System.out.println("That is incorrect! iOS is only the most popular in America");
                 }
+            }
+            else {
+                System.out.println("SOMETHING BORKEN");
             }
             if (amountCorrect > 0) {
                 System.out.println("You answered correctly! The wizard grants you 5 health and...");
@@ -572,8 +596,8 @@ public class GameDriver {
         }
         //
         else if (puzzle.equals("riddle")) {
-            int chooseRiddle = (int) (Math.random()*4);
-            if (chooseRiddle >= 4) {
+            int chooseRiddle = (int) (Math.random()*4+1);
+            if (chooseRiddle == 4) {
                 System.out.println("What has one eye but cannot see? (Answer form is: A _______");
                 String choice = input.nextLine();
                 if (caseSensitive(choice).equals("a needle")) {
@@ -584,7 +608,7 @@ public class GameDriver {
                     System.out.println("That is incorrect. The answer was: A Needle");
                 }
             }
-            else if (chooseRiddle >= 3) {
+            else if (chooseRiddle == 3) {
                 System.out.println("What can you catch, but not throw (answer = A _____");
                 String choice = input.nextLine();
                 if (caseSensitive(choice).equals("a cold")) {
@@ -595,7 +619,7 @@ public class GameDriver {
                     System.out.println("Wrong, the correct answer was: A Cold");
                 }
             }
-            else if (chooseRiddle >= 2) {
+            else if (chooseRiddle == 2) {
                 System.out.println("What needs to be broken in order to use it? ");
                 String choice = input.nextLine();
                 if (caseSensitive(choice).equals("egg")) {
@@ -617,6 +641,7 @@ public class GameDriver {
                     System.out.println("That was incorrect, it was: A Sponge");
                 }
             }
+            /* 
             // if they got correct, then get new armor
             if (amountCorrect > 0) {
                 System.out.println("After answering the question correctly, a hole in the wall opens and a new Armor set is revealed. When you go collect it, you see it's called \"Glacite Armor.\" This armor has a modifier of + 3");
@@ -635,10 +660,13 @@ public class GameDriver {
                 }
             }
         }
+
         else if (puzzle.equals("math")) {
 
         }
-     
+        */
+        }
+        System.out.println(ANSI_RESET);
     }
       
     public static void berzerkRoom() {
@@ -682,39 +710,43 @@ public class GameDriver {
     public static void skellys(int amount) {
         Scanner input = new Scanner(System.in);
         for (int i = 0; i < amount; i++) {
-            skeletons.add(4);
+            skeletons.add(5);
         }
         while(!(skeletons.isEmpty()) && playerHealth > 0) {
             if (playerHealth < 0 ) {
                 System.out.println("Player has died");
                 break;
             }
-            System.out.println("Your current health is " + playerHealth);
-            System.out.println("There are " + skeletons.size() + " skeletons left");
-            System.out.println("Which one do you attack? (0-" + (skeletons.size()-1));
-            int choice = input.nextInt();
-            mobAttack(0, 2, 11, "Zombie", choice);
-            int playerDamage = attackDamage();
-            System.out.println("You deal " + playerDamage + " damage to the zombie");
-            int newHealth = skeletons.get(choice) - playerDamage;
-            skeletons.set(choice, newHealth);
-            if (skeletons.get(choice) < 0) {
-                skeletons.remove(choice);
+            if (skeletons.size() == 1 && skeletons.get(0) <= 0) {
+                break;
             }
-            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal?"+ANSI_RESET);
+            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal? You may either only heal or attack this turn (Yes or No)"+ANSI_RESET);
             input.nextLine();
             String choice12123 = input.nextLine();
             if (caseSensitive(choice12123).equals("yes")) {
                 checkAction("use healing item");
             }
-            else if (caseSensitive(choice12123).equals("no")) {
-                System.out.println("Okay, keep fighting");
-            } 
+            // whether they heal or not, this has to run 
+            //System.out.println("Okay, keep fighting");
+            
+            
+            System.out.println("Your current health is " + playerHealth);
+            System.out.println("There are " + skeletons.size() + " skeletons left");
+            System.out.println("Which one do you attack? (0-" + (skeletons.size()-1));
+            int choice = input.nextInt();
+            mobAttack(0, 2, 9, "Skeleton", choice);
+            int playerDamage = attackDamage();
+            System.out.println("You deal " + playerDamage + " damage to the zombie");
+            int newHealth = skeletons.get(choice) - playerDamage;
+            //zombies.set(choice, newHealth);
+            if (skeletons.get(choice) < 0) {
+                skeletons.remove(choice);
+            }
             else {
-                System.out.println("Invalid input. it is Yes or No");
+                skeletons.set(choice, newHealth);
             }
         }
-        System.out.println(GREEN+ANSI_UNDERLINE+"all the skeltons are dead!!"+ANSI_RESET);
+        System.out.println(GREEN+ANSI_UNDERLINE+"all the skeletons are dead!!"+ANSI_RESET);
     }
     
     // for fighting zombies 
@@ -738,12 +770,11 @@ public class GameDriver {
             // whether they heal or not, this has to run 
             //System.out.println("Okay, keep fighting");
             
-            
             System.out.println("Your current health is " + playerHealth);
             System.out.println("There are " + zombies.size() + " zombies left");
             System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
             int choice = input.nextInt();
-            mobAttack(0, 2, 10, "Zombie", choice);
+            mobAttack(0, 2, 9, "Zombie", choice);
             int playerDamage = attackDamage();
             System.out.println("You deal " + playerDamage + " damage to the zombie");
             int newHealth = zombies.get(choice) - playerDamage;
@@ -751,7 +782,9 @@ public class GameDriver {
             if (zombies.get(choice) < 0) {
                 zombies.remove(choice);
             }
-            zombies.set(choice, newHealth);
+            else {
+                zombies.set(choice, newHealth);
+            }
         }
         System.out.println(GREEN+ANSI_UNDERLINE+"all the zombies are dead!!"+ANSI_RESET);
     }
@@ -796,6 +829,7 @@ public class GameDriver {
         String lowerCase = word.toLowerCase();
         return lowerCase;
     }
+    //
 }
 
 // this project will go into week 4
