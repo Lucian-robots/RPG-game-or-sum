@@ -39,10 +39,11 @@ public class GameDriver {
         System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
         System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n\n\n"+ANSI_RESET);
         
-        solvePuzzle("riddle");
+        // solvePuzzle("riddle");
         
         //printControls();
         //openingScene(); 
+        berzerkRoom();
     }
     public String openChest() {
         int random = (int)(Math.random() * 10) +1;
@@ -230,9 +231,9 @@ public class GameDriver {
     }
     public static void fifthScene() {
         Scanner input = new Scanner(System.in);
-        System.out.println(YELLOW+"Gongrats on making this far, now, to save the villagers and the realm of skyblock, you must defeat the Witherlord himself.");
-        System.out.println("BUT, you are WAY under geard for this fight. If you wish to proceed, you may. But attacking him now is certain death.");
-        System.out.println("You have the option to either, Attack Witherlord, Do puzzle room, Look for armor, look for swords, or carry on with story");
+        System.out.println(YELLOW+"Congrats on making this far, now, to save the villagers and the realm of skyblock, you must defeat the Witherlord himself.");
+        System.out.println("\tBUT, you are WAY under geard for this fight. If you wish to proceed, you may. But attacking him now is certain death.");
+        System.out.println("\t\tYou have the option to either, Attack Witherlord, Do puzzle room, Look for armor, look for swords, or carry on with story");
         String choice = input.nextLine();
         if (caseSensitive(choice).equals("attack witherlord")) {
             System.out.println("What a dumb choice");
@@ -438,14 +439,15 @@ public class GameDriver {
     public static void useHealing(String item) {
         System.out.println(BLUE);
         if (item.equals("Wand of Healing")) {
-            System.out.println("You used your Wand of Healing"); 
-            playerHealth+=5;
+            System.out.println("You used your Wand of Healing"); // this is for healing or sum okease
+            playerHealth+=5; 
         }
         else if (item.equals("Apple")) {
             System.out.println("You ate the apple and it healed you 4 HP!");
             playerHealth+=10;
+            
             healingItems.remove(item);
-        }
+        } 
         else if (item.equals("Healing Orb")) {
             System.out.println("Your Healing Orb heals you 12 HP!");
             playerHealth+=15;
@@ -663,6 +665,11 @@ public class GameDriver {
             System.out.println("Invalid input. Left or Right");
             berzerkRoom();
         }
+        System.out.println("After defeating the skeletons and zombies, the last one you kill drops what looks to be a sword. When you pick it up, you realize that it it is a"+BLUE+" Livid Dagger! "+ANSI_RESET+"Do you want to keep it in your inventory or equip it? It is better than a rogue sword because it has a roll value of +2 and a damage modifier of +2 (Equip or Keep In Inventory?");
+        String choice = input.nextLine();
+        if (caseSensitive(choice).equals("")) {
+
+        }
     }
     public static void dead() {
         System.out.println("you died.");
@@ -722,36 +729,29 @@ public class GameDriver {
                 System.out.println("Player has died");
                 break;
             }
-            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal? You may either only heal or attack this turn"+ANSI_RESET);
+            System.out.println(RED+ANSI_UNDERLINE+"Do you want to heal? You may either only heal or attack this turn (Yes or No)"+ANSI_RESET);
             input.nextLine();
             String choice12123 = input.nextLine();
             if (caseSensitive(choice12123).equals("yes")) {
                 checkAction("use healing item");
             }
-            else if (caseSensitive(choice12123).equals("no")) {
-                System.out.println("Okay, keep fighting");
-                System.out.println("Your current health is " + playerHealth);
-                System.out.println("There are " + zombies.size() + " zombies left");
-                System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
-                int choice = input.nextInt();
-                mobAttack(0, 2, 11, "Zombie", choice);
-                int playerDamage = attackDamage();
-                System.out.println("You deal " + playerDamage + " damage to the zombie");
-                int newHealth = zombies.get(choice) - playerDamage;
-                zombies.set(choice, newHealth);
-                if (zombies.get(choice) < 0) {
-                    zombies.remove(choice);
-                }
-                zombies.set(choice, newHealth);
-                if (zombies.get(choice) < 0) {
-                    zombies.remove(choice);
-                }
-            }
-            else {
-                System.out.println("Invalid input. it is Yes or No");
-            }
+            // whether they heal or not, this has to run 
+            //System.out.println("Okay, keep fighting");
             
             
+            System.out.println("Your current health is " + playerHealth);
+            System.out.println("There are " + zombies.size() + " zombies left");
+            System.out.println("Which one do you attack? (0-" + (zombies.size()-1));
+            int choice = input.nextInt();
+            mobAttack(0, 2, 10, "Zombie", choice);
+            int playerDamage = attackDamage();
+            System.out.println("You deal " + playerDamage + " damage to the zombie");
+            int newHealth = zombies.get(choice) - playerDamage;
+            //zombies.set(choice, newHealth);
+            if (zombies.get(choice) < 0) {
+                zombies.remove(choice);
+            }
+            zombies.set(choice, newHealth);
         }
         System.out.println(GREEN+ANSI_UNDERLINE+"all the zombies are dead!!"+ANSI_RESET);
     }
@@ -800,7 +800,7 @@ public class GameDriver {
 
 // this project will go into week 4
 /*
-make riddles for solzePuzzle 1
+make riddles for solzePuzzle 1                          DONE
 make the math thing for solvePuzzle 2
 go on with story
 more rooms to fight in
