@@ -28,6 +28,7 @@ public class GameDriver {
     public static int prevScene;
     public static String currentArmor = "Miner Armor";
     public static int healthThing;
+    public static int otherPlayerHealth = 35;
      
     public static void main(String[]args) {
         players p1 = new players();
@@ -261,7 +262,56 @@ public class GameDriver {
         }
     }
     public static void sixthScene() {
-        
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n\nAfter your done with all of that, you choose to go on. When you round the corner, you are face to face with another player in Miner Armor and a rogue sword. As soon as he sees you, he attacks you and deals 5 damage. Do you fight back or negotiate?");
+        String choice = input.nextLine();
+        if (caseSensitive(choice).equals("attack")) {
+            System.out.println("You have the better armor, so this will be easy");
+        }
+        else if (caseSensitive(choice).equals("negotiate")) {
+            System.out.println("You tell him that you are friendly and just want to talk. \n After talking and wondering where you are, you decide to team up.");
+        }
+    }
+    public static void fightOtherPlayer() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Do you want to heal before you fight?");
+        String choice = input.nextLine();
+        if (caseSensitive(choice).equals("yes")) {
+            System.out.println("What item do you want to use? " + healingItems);
+            String choice1 = input.nextLine();
+            checkAction("use healing item");
+
+        }
+        else if (caseSensitive(choice).equals("no")) {
+            System.out.println("what ever you say ig");
+        }
+        else {
+            System.out.println("Invalid Input\n");
+            fightOtherPlayer();
+        }
+        while(playerHealth > 0 && otherPlayerHealth > 0) {
+            System.out.println("Do you want to heal? (yes or no)");
+            String choice2 = input.nextLine();
+            if (caseSensitive(choice2).equals("yes")) {
+                checkAction("use healing item");
+                
+            }
+
+
+        }
+
+    }
+    public static void otherPLayerTurn() {
+        if (otherPlayerHealth < 10) {
+            System.out.println("The player healed!");
+            otherPlayerHealth+=5;
+        }
+        else {
+
+        }
+    }
+    public static void otherPlayerDamage() {
+
     }
       
     // modifier is a -+ value. - means harder boss and + means easier boss. howManyRolls is obvious, highLow is the "difficulty" like the boss is hard
@@ -477,7 +527,7 @@ public class GameDriver {
     }
     public static void solvePuzzle(String puzzle) {
         System.out.println(BLUE);
-        int amountCorrect=0;
+        int amountCorrect=0; 
         Scanner input = new Scanner(System.in);
         if (puzzle.equals("random")) {
             System.out.println(BLUE+"You walk in and a wizard stands there. He asks you 1 question. If you get it wrong, you take 5 damage, answering correctly results in a reward");
