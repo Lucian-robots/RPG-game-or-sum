@@ -45,13 +45,14 @@ public class GameDriver {
             solvePuzzle("random");
         }
         */
-        
+        /* 
         currentSword = "Aspect of the End";
         fightOtherPlayer();
-        
+        */
         //printControls();
         //openingScene(); 
         //berzerkRoom();
+        mazeRoom();
     }
     public String openChest() {
         int random = (int)(Math.random() * 10) +1;
@@ -803,7 +804,24 @@ public class GameDriver {
 
     // if this works, this will be the peak of my coding career
     public static void mazeRoom() {
-
+        System.out.println("As you enter the maze, the door behind closes. The walls are marked by '#' you (the player) are 'P' other mosters are 'M' and 'S' is a new sword");
+        System.out.println("Hitting a monster will result in a battle");
+        char[][] maze ={
+            {'#','#','#','#','#','#','#','#','#','#','#','#'},
+            {'#',' ',' ',' ','P',' ',' ',' ',' ','M','#','#'},
+            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},
+            {'#',' ','#','#','M',' ',' ',' ',' ',' ','M','#'},
+            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},
+            {'#',' ',' ',' ','G',' ',' ',' ',' ',' ','S','#'},
+            {'#','#','#','#','#','#','#','#','#','#','#','#'}};
+        //
+        for (int i = 0;  i < 7; i++) {
+            for (int z = 0; z < 12; z++) {
+                System.out.print(maze[i][z]);
+            }
+            System.out.println();
+        }
+         
     }
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
