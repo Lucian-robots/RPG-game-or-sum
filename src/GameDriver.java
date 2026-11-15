@@ -275,12 +275,14 @@ public class GameDriver {
         if (caseSensitive(choice).equals("attack")) {
             System.out.println("You have the better armor, so this will be easy");
             fightOtherPlayer();
-            // next scene is puzzle room 
+            System.out.println("You now enter the next room: A maze");
         }
         else if (caseSensitive(choice).equals("negotiate")) {
             System.out.println("You tell him that you are friendly and just want to talk. \n After talking and wondering where you are, you decide to team up.");
             System.out.println("You guys then go into the puzzle room. This one is a maze");
         }
+        mazeRoom();
+        lastScene();
     }
     
     public static void fightOtherPlayer() {
@@ -759,7 +761,7 @@ public class GameDriver {
         }
         System.out.println(ANSI_RESET);
     }
-      
+    
     public static void berzerkRoom() {
         Scanner input = new Scanner(System.in);
         System.out.println("You enter the room filled with mobs. To the right, there are zombies, and to the left, there are skeletons. They all have a pretty low modifier, but remeber, there are more of them than you. Do you go left or right?");
@@ -903,6 +905,7 @@ public class GameDriver {
             if (previousChar == 'M') {
                 System.out.println("You ran into a monster!");
                 fightMonster();
+                previousChar = ' ';
             }
             else if (previousChar == 'S') {
                 System.out.println(RED+"\n\nYou found a new sword!");
@@ -945,6 +948,7 @@ public class GameDriver {
             int damage = attackDamage();
             if (didHit > 10) {
                 System.out.print("you hit him for " + damage + " damage");
+                monsterHealth-=damage;
             }
             else {
                 System.out.print("missed!");
@@ -963,7 +967,57 @@ public class GameDriver {
         System.out.println(ANSI_RESET);
     }
     public static void lastScene() {
-
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n\nAs you enter the last room, you realize the journey you have made. It took a lot to get this far. Good luck warrior\n\n");
+        System.out.println(RED+"The final boss is Bonzo. He is a clown that can shoot baloons at you and also attack you.");
+        bossHealth = 50;
+        while (playerHealth > 0 && bossHealth > 0) {
+            System.out.println("Do you want to heal? (yes or no)");
+            String choice = input.nextLine();
+            if (caseSensitive(choice).equals("yes")) {
+                checkAction("use healing item");
+            }
+            else if (caseSensitive(choice).equals("no")) {
+                System.out.println("Continuing with fight");
+            }
+            bossActions();
+            System.out.println(RED+"You need to roll a very high damage and crit");
+            int playerDamage = attackDamage();
+            int damageChance = rolld20()+2;
+            if (damageChance > 10) {
+                System.out.println("You attack bonzo for " + playerDamage + " damage. His health is " + bossHealth);
+                bossHealth-=playerDamage;
+            }
+            else {
+                System.out.println("You go to hit bonzo but you missed!");
+            }
+        }
+        if (playerHealth <= 0) {
+            dead();
+        }
+        else {
+            System.out.println(ANSI_UNDERLINE+"\n\n\nYOU KILLED BONZO!!! The world of Hypixel Skyblock is saved! Thank you for playing"+ANSI_RESET);
+        }
+    }
+    public static void bossActions() {
+        System.out.println(GREEN);
+        int damage = rolld8()+5;
+        int chance = rolld20();
+        if (chance > 8) {
+            if (bossHealth > 25) {
+                damage = rolld8()+1;
+                System.out.println("Bonzo shoots his arrow at you dealing " + damage + " your health is at " + playerHealth);
+                playerHealth-=damage;
+            }
+            else {
+                damage = rolld8()+5;
+                System.out.println("He goes in and hits you for " + damage + "health!");
+                playerHealth-=damage;
+            }
+        }
+        else {
+            System.out.println("Bonzo's attack missed!");
+        }
     }
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
