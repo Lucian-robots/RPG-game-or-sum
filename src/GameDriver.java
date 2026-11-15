@@ -846,49 +846,80 @@ public class GameDriver {
             // checks which button press or sum
             if (wasd == 'w') {
                 maze[correctRow][correctCol] = previousChar;
-                previousChar = maze[correctRow-1][correctCol];
+                char currentSpace = maze[correctRow-1][correctCol];
+                if (currentSpace == '#') {
+                    System.out.println(RED+"You hit a wall! -1 health. going back to previous pos."+ANSI_RESET);
+                    maze[correctRow][correctCol] = 'P';
+                    //maze[correctRow-1][correctCol] = '#';
+                }
+                else {
+                    previousChar = maze[correctRow-1][correctCol];
+                    maze[correctRow-1][correctCol] = 'P';     
+                }
                 
-                maze[correctRow-1][correctCol] = 'P';
             }
             else if (wasd == 'a') {
                 maze[correctRow][correctCol] = previousChar;
-                previousChar = maze[correctRow][correctCol-1];
-                
-                
-                maze[correctRow][correctCol-1] = 'P';
+                char currentSpace = maze[correctRow][correctCol-1];
+                if (currentSpace == '#') {
+                    System.out.println(RED+"You hit a wall! -1 health. going back to previous pos."+ANSI_RESET);
+                    maze[correctRow][correctCol] = 'P';
+                    //maze[correctRow-1][correctCol] = '#';
+                }
+                else {
+                    previousChar = maze[correctRow][correctCol-1];
+                    maze[correctRow][correctCol-1] = 'P';     
+                }
             }
             else if (wasd == 's') {
                 maze[correctRow][correctCol] = previousChar;
-                previousChar = maze[correctRow+1][correctCol];
-                
-                
+                char currentSpace = maze[correctRow+1][correctCol];
+                if (currentSpace == '#') {
+                    System.out.println(RED+"You hit a wall! -1 health. going back to previous pos."+ANSI_RESET);
+                    maze[correctRow][correctCol] = 'P';
+                    //maze[correctRow-1][correctCol] = '#';
+                }
+                else {
+                    previousChar = maze[correctRow+1][correctCol];
+                    maze[correctRow+1][correctCol] = 'P';     
+                }
+                    
                 maze[correctRow+1][correctCol] = 'P';
             }
             else if (wasd == 'd') {
                 maze[correctRow][correctCol] = previousChar;
-                previousChar = maze[correctRow][correctCol+1];
-                
-                
-                maze[correctRow][correctCol+1] = 'P';
+                char currentSpace = maze[correctRow][correctCol+1];
+                if (currentSpace == '#') {
+                    System.out.println(RED+"You hit a wall! -1 health. going back to previous pos."+ANSI_RESET);
+                    maze[correctRow][correctCol] = 'P';
+                    //maze[correctRow-1][correctCol] = '#';
+                }
+                else {
+                    previousChar = maze[correctRow][correctCol+1];
+                    maze[correctRow][correctCol+1] = 'P';     
+                }
             }
             // check monster or sword
-            if (previousChar == '#') {
-                //previousChar = ' ';
-                System.out.println("You hit a wall! -1 health. going back to previous pos.");
-                maze[correctRow][correctCol] = '#';
-                //maze[correctRow][correctCol] 
+            if (previousChar == 'M') {
+                System.out.println("You ran into a monster!");
+                fightMonster();
             }
-            else {
-
+            else if (previousChar == 'S') {
+                System.out.println(RED+"\n\nYou found a new sword!");
+                System.out.println("It is a Aspect of the Dragons!"+ANSI_RESET);
+                currentSword = "Aspect of the Dragons";
+                previousChar = ' ';
             }
             // now print the new maze config
             for (int i = 0;  i < 7; i++) {
-            for (int z = 0; z < 12; z++) {
-                System.out.print(maze[i][z]);
+                for (int z = 0; z < 12; z++) {
+                    System.out.print(maze[i][z]);
+                }
+                System.out.println();
             }
-            System.out.println();
         }
-        }
+        System.out.println("You completed the maze!");
+        lastScene();
         /*
         Check where they want to go (wasd)    
             we need to keep track of the space they were last on to then replace it
@@ -905,6 +936,34 @@ public class GameDriver {
                 if its the sword
                     update the sqaure as a ' '
         */
+    }
+    public static void fightMonster() {
+        System.out.println(YELLOW+"You come across a monster. He has only 10 health. You go to lunge and ");
+        int monsterHealth = 10;
+        while (playerHealth > 0 && monsterHealth > 0) {
+            int didHit = (rolld20()+6-3);
+            int damage = attackDamage();
+            if (didHit > 10) {
+                System.out.print("you hit him for " + damage + " damage");
+            }
+            else {
+                System.out.print("missed!");
+            }
+            int monsterDamage = rolld8()-2;
+            playerHealth-=monsterDamage;
+            System.out.println("The monster hit you for " + monsterDamage + " damage and your health is " + playerHealth);
+        }
+        if (monsterHealth <=0) {
+            System.out.println("You killed the monster!");
+        }
+        else {
+            System.out.println("You died!");
+            dead();
+        }
+        System.out.println(ANSI_RESET);
+    }
+    public static void lastScene() {
+
     }
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
