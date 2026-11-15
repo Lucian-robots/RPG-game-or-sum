@@ -278,7 +278,7 @@ public class GameDriver {
         }
         else if (caseSensitive(choice).equals("negotiate")) {
             System.out.println("You tell him that you are friendly and just want to talk. \n After talking and wondering where you are, you decide to team up.");
-            // next scene is  bezerker room
+            System.out.println("You guys then go into the puzzle room. This one is a maze");
         }
     }
     
@@ -326,6 +326,8 @@ public class GameDriver {
         }
         else if (otherPlayerHealth < 0) {
             System.out.println("You killed the other player!");
+            System.out.println("You received a new sword! It is called a \"Aspect of the Dragons!\"Now you are ready for the next puzzle room");
+
         }
         // next scene
     } // the next scene depends on wheterh or not you team or ayyacl
@@ -732,7 +734,7 @@ public class GameDriver {
                     System.out.println("That was incorrect, it was: A Sponge");
                 }
             }
-            /* 
+            
             // if they got correct, then get new armor
             if (amountCorrect > 0) {
                 System.out.println("After answering the question correctly, a hole in the wall opens and a new Armor set is revealed. When you go collect it, you see it's called \"Glacite Armor.\" This armor has a modifier of + 3");
@@ -751,11 +753,8 @@ public class GameDriver {
                 }
             }
         }
-
         else if (puzzle.equals("math")) {
 
-        }
-        */
         }
         System.out.println(ANSI_RESET);
     }
@@ -802,7 +801,10 @@ public class GameDriver {
         System.exit(0);
     }
 
-    
+    // if this works, this will be the peak of my coding career
+    public static void mazeRoom() {
+
+    }
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
     public static void skellys(int amount) {
