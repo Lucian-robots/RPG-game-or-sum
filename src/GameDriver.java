@@ -804,24 +804,49 @@ public class GameDriver {
 
     // if this works, this will be the peak of my coding career
     public static void mazeRoom() {
-        System.out.println("As you enter the maze, the door behind closes. The walls are marked by '#' you (the player) are 'P' other mosters are 'M' and 'S' is a new sword");
-        System.out.println("Hitting a monster will result in a battle");
+        Scanner input = new Scanner(System.in);
+        System.out.println(GREEN+"As you enter the maze, the door behind closes. The walls are marked by '#' you (the player) are 'P' other mosters are 'M' and 'S' is a new sword");
+        System.out.println("Hitting a monster will result in a battle, but you will get a reward for killing them. "+RED+"MOVE WITH WASD"+ANSI_RESET);
         char[][] maze ={
-            {'#','#','#','#','#','#','#','#','#','#','#','#'},
-            {'#',' ',' ',' ','P',' ',' ',' ',' ','M','#','#'},
-            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},
-            {'#',' ','#','#','M',' ',' ',' ',' ',' ','M','#'},
-            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},
-            {'#',' ',' ',' ','G',' ',' ',' ',' ',' ','S','#'},
-            {'#','#','#','#','#','#','#','#','#','#','#','#'}};
+            {'#','#','#','#','#','#','#','#','#','#','#','#'},    //############
+            {'#',' ',' ',' ','P',' ',' ',' ',' ','M','#','#'},    //#   P    M##
+            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},    //# ###### ###
+            {'#',' ',' ','#','M',' ',' ',' ',' ',' ','M','#'},    //#  #M     M#
+            {'#',' ','#','#','#','#','#','#',' ','#','#','#'},    //# ###### ###
+            {'#',' ',' ',' ','G',' ',' ',' ',' ',' ','S','#'},    //#   G     S#
+            {'#','#','#','#','#','#','#','#','#','#','#','#'}};   //############
         //
+        // code to print the array
         for (int i = 0;  i < 7; i++) {
             for (int z = 0; z < 12; z++) {
                 System.out.print(maze[i][z]);
             }
             System.out.println();
         }
-         
+        char previousChar = ' ';
+        while (previousChar != 'G') {
+            System.out.println("WASD to move.");
+            char newMove = 
+            if () {
+
+            }
+        }
+        /*
+        Check where they want to go (wasd)    
+            we need to keep track of the space they were last on to then replace it
+            we also need to check the next square they want to go to, then see if it's a valid move
+                if its a wall:
+                    dont update the move, just reply with -1 health or sum and "you hit a wall"
+                if its an empty space:
+                    set the previous square with previousChar
+                    update previousChar to the square the player is going to
+                    update the sqaure they want to go to 
+                if its a monster
+                    do above but add the fighting mechanic
+                    update sqaure as a ' '
+                if its the sword
+                    update the sqaure as a ' '
+        */
     }
     // for fighting skeletons
     public static ArrayList<Integer> skeletons = new ArrayList<>();
