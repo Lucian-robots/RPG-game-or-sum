@@ -824,12 +824,70 @@ public class GameDriver {
             System.out.println();
         }
         char previousChar = ' ';
+        char currentMove; 
+        int correctCol = -1;
+        int correctRow = -1;
         while (previousChar != 'G') {
-            System.out.println("WASD to move.");
-            char newMove = 
-            if () {
+            System.out.println("WASD to move. enter either w, a, s, or d. LOWERCASE");
+            char wasd = input.next().charAt(0);
+
+            // find current pos
+            //int col;
+            
+            // update current pos, use nested for loops to search for P
+            for (int row = 0; row < maze.length; row++) {
+                for (int col = 0; col < maze[row].length; col++) {
+                    if (maze[row][col] == 'P') {
+                        correctCol = col;
+                        correctRow = row;
+                    }
+                }
+            }
+            // checks which button press or sum
+            if (wasd == 'w') {
+                maze[correctRow][correctCol] = previousChar;
+                previousChar = maze[correctRow-1][correctCol];
+                
+                maze[correctRow-1][correctCol] = 'P';
+            }
+            else if (wasd == 'a') {
+                maze[correctRow][correctCol] = previousChar;
+                previousChar = maze[correctRow][correctCol-1];
+                
+                
+                maze[correctRow][correctCol-1] = 'P';
+            }
+            else if (wasd == 's') {
+                maze[correctRow][correctCol] = previousChar;
+                previousChar = maze[correctRow+1][correctCol];
+                
+                
+                maze[correctRow+1][correctCol] = 'P';
+            }
+            else if (wasd == 'd') {
+                maze[correctRow][correctCol] = previousChar;
+                previousChar = maze[correctRow][correctCol+1];
+                
+                
+                maze[correctRow][correctCol+1] = 'P';
+            }
+            // check monster or sword
+            if (previousChar == '#') {
+                //previousChar = ' ';
+                System.out.println("You hit a wall! -1 health. going back to previous pos.");
+                maze[correctRow][correctCol] = '#';
+                //maze[correctRow][correctCol] 
+            }
+            else {
 
             }
+            // now print the new maze config
+            for (int i = 0;  i < 7; i++) {
+            for (int z = 0; z < 12; z++) {
+                System.out.print(maze[i][z]);
+            }
+            System.out.println();
+        }
         }
         /*
         Check where they want to go (wasd)    
