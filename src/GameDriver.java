@@ -40,9 +40,15 @@ public class GameDriver {
         System.out.println(RED+ "This is a TEXT adventure game. All inputs have to have correct spelling (im too lazy to fix this) also red text in java is cool XD. Also, some of the text may be incredibly corny bear with me I hate making stories and dialog" + ANSI_RESET);
         System.out.println(BLUE+ANSI_UNDERLINE+"Don't forget, inside of rooms with mobs, you can look for secrets by entering \"Secrets\n\n"+ANSI_RESET);
         System.out.println(BLUE+ANSI_UNDERLINE+"Note that spamming actions can result in unwanted actions if a new method pops up after the one that was spammed.\n\n"+ANSI_RESET);
+        /* 
         while (true) {
             solvePuzzle("random");
         }
+        */
+        
+        currentSword = "Aspect of the End";
+        fightOtherPlayer();
+        
         //printControls();
         //openingScene(); 
         //berzerkRoom();
@@ -267,18 +273,21 @@ public class GameDriver {
         String choice = input.nextLine();
         if (caseSensitive(choice).equals("attack")) {
             System.out.println("You have the better armor, so this will be easy");
+            fightOtherPlayer();
+            // next scene is puzzle room 
         }
         else if (caseSensitive(choice).equals("negotiate")) {
             System.out.println("You tell him that you are friendly and just want to talk. \n After talking and wondering where you are, you decide to team up.");
+            // next scene is  bezerker room
         }
     }
+    
     public static void fightOtherPlayer() {
+        System.out.println(BLUE);
         Scanner input = new Scanner(System.in);
         System.out.println("Do you want to heal before you fight?");
         String choice = input.nextLine();
         if (caseSensitive(choice).equals("yes")) {
-            System.out.println("What item do you want to use? " + healingItems);
-            String choice1 = input.nextLine();
             checkAction("use healing item");
 
         }
@@ -290,28 +299,60 @@ public class GameDriver {
             fightOtherPlayer();
         }
         while(playerHealth > 0 && otherPlayerHealth > 0) {
+            System.out.println(ANSI_RESET);
+            npcTurn();
+            
             System.out.println("Do you want to heal? (yes or no)");
             String choice2 = input.nextLine();
             if (caseSensitive(choice2).equals("yes")) {
                 checkAction("use healing item");
-                
+                System.out.println(RED+"Your current health is: " + playerHealth + ANSI_RESET);
+            }
+            else {
+                if ((rolld20()+4-1) > 10) {
+                    System.out.println("You can attack him!");
+                    int damage = attackDamage();
+                    System.out.println("You deal " + damage + " damage to him!");
+                    otherPlayerHealth-=damage;
+                }
+                else {
+                    System.out.println("You went to lunge but missed!");
+                }
             }
 
-
         }
-
-    }
-    public static void otherPLayerTurn() {
+        if (playerHealth < 0) {
+            dead();
+        }
+        else if (otherPlayerHealth < 0) {
+            System.out.println("You killed the other player!");
+        }
+        // next scene
+    } // the next scene depends on wheterh or not you team or ayyacl
+    public static void npcTurn() {        
+        System.out.println(RED);
         if (otherPlayerHealth < 10) {
             System.out.println("The player healed!");
             otherPlayerHealth+=5;
         }
         else {
-
+            System.out.println("The player goes to attack!"); //
+            int npcDamage = 0;
+            int didPlayerLand = 0;
+            // npc has modifier of 2 and we have 3
+            npcDamage = (rolld8()+2)-4; 
+            // check if the npc even hit us. Our modifier is 6, npc is 3
+            didPlayerLand = (rolld20()+3-6);
+            // has to roll above a 10
+            if (didPlayerLand > 10) {
+                System.out.println("The players attack landed! He did "+ npcDamage + " damage to you!");
+                playerHealth-=npcDamage;
+            }
+            else {
+                System.out.println("The hit didn't land!");
+            }
         }
-    }
-    public static void otherPlayerDamage() {
-
+        System.out.println(ANSI_RESET);
     }
       
     // modifier is a -+ value. - means harder boss and + means easier boss. howManyRolls is obvious, highLow is the "difficulty" like the boss is hard
@@ -743,10 +784,17 @@ public class GameDriver {
             System.out.println("Invalid input. Left or Right");
             berzerkRoom();
         }
-        System.out.println("After defeating the skeletons and zombies, the last one you kill drops what looks to be a sword. When you pick it up, you realize that it it is a"+BLUE+" Livid Dagger! "+ANSI_RESET+"Do you want to keep it in your inventory or equip it? It is better than a rogue sword because it has a roll value of +2 and a damage modifier of +2 (Equip or Keep In Inventory?");
+        System.out.println("After defeating the skeletons and zombies, the last one you kill drops what looks to be a sword. When you pick it up, you realize that it it is a"+BLUE+" Aspect of the End! "+ANSI_RESET+"Do you want to keep it in your inventory or equip it? It is better than a rogue sword because it has a roll value of +2 and a damage modifier of +5 (Equip or Keep In Inventory?");
         String choice = input.nextLine();
-        if (caseSensitive(choice).equals("")) {
+        if (caseSensitive(choice).equals("equip")) {
+            System.out.println("Your current sword is the Aspect of the End!");
+            swords.add("Aspect of the End");
+            currentSword = "Aspect of the End";
 
+        }
+        else if (caseSensitive(choice).equals("keep in inventory")) {
+            System.out.println("Added to inventory but not equipped");
+            swords.add("Aspect of the End");
         }
     }
     public static void dead() {
